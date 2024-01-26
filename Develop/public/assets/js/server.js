@@ -58,6 +58,7 @@ app.get('/notes', (req, res) => {
   
       const notes = JSON.parse(data);
   
+      //! credit to copilot
       // Create a new note with a unique id and add it to the notes array
       const newNote = { ...req.body, id: Date.now() };
       notes.push(newNote);
@@ -66,6 +67,7 @@ app.get('/notes', (req, res) => {
       fs.writeFile(path.join(__dirname, '../../../db/db.json'), JSON.stringify(notes, null, 2), (err) => {
         if (err) throw err;
         res.json(newNote);
+      //!!!!!!!!!!!!!!!!!
       });
     });
   });
@@ -81,7 +83,6 @@ app.get('/notes', (req, res) => {
       res.json(notes);
     });
   });
-
 
 //   app.delete('/api/notes', (req, res) => {
 //     res.json({
