@@ -48,10 +48,10 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
   });
 
-  //TODO make post work
+  //TODO make post work by using fs to write notes to db.json
   app.post('/api/notes', (req, res) => {
     // Read the existing notes
-    fs.readFile(path.join(__dirname, '../db/db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '../../../db/db.json'), 'utf8', (err, data) => {
       if (err) throw err;
   
       const notes = JSON.parse(data);
@@ -61,7 +61,7 @@ app.get('/notes', (req, res) => {
       notes.push(newNote);
   
       // Write the updated notes array back to the file
-      fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+      fs.writeFile(path.join(__dirname, '../../../db/db.json'), JSON.stringify(notes, null, 2), (err) => {
         if (err) throw err;
         res.json(newNote);
       });
