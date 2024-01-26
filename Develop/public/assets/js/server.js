@@ -22,7 +22,9 @@
 //       'Content-Type': 'application/json'
 //     }
 //   });
+
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 
 
@@ -37,7 +39,6 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to serve up static assets from the public folder
 app.use(express.static(path.join(__dirname, '../../../public')));
 
-//TODO Make route handlers for hese requests. 
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../public/index.html'));
@@ -47,13 +48,25 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
   });
 
-//   app.post('/api/notes', (req, res) => {
-//     res.json({
-//       term: 'api',
-//       description:
-//         'An application programming interface, is a computing interface that defines interactions between multiple software intermediaries',
-//     });
-//   });
+  //TODO make post work
+  app.post('/api/notes', (req, res) => {
+    // Read the existing notes
+    fs.readFile(path.join(__dirname, '../db/db.json'), 'utf8', (err, data) => {
+      if (err) throw err;
+  
+      const notes = JSON.parse(data);
+  
+      // Create a new note with a unique id and add it to the notes array
+      const newNote = { ...req.body, id: Date.now() };
+      notes.push(newNote);
+  
+      // Write the updated notes array back to the file
+      fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+        if (err) throw err;
+        res.json(newNote);
+      });
+    });
+  });
 
 //   app.delete('/api/notes', (req, res) => {
 //     res.json({
