@@ -84,13 +84,22 @@ app.get('/notes', (req, res) => {
     });
   });
 
-//   app.delete('/api/notes', (req, res) => {
-//     res.json({
-//       term: 'api',
-//       description:
-//         'An application programming interface, is a computing interface that defines interactions between multiple software intermediaries',
-//     });
-//   });
+  //! Credit to github AI
+  app.delete('/api/notes/:id', (req, res) => {
+    const noteId = Number(req.params.id); // Convert to number
+  
+    // Read the existing notes
+    let notes = JSON.parse(fs.readFileSync(path.join(__dirname, '../../../db/db.json'), 'utf8'));
+  
+    // Filter out the note with the given ID
+    notes = notes.filter(note => note.id !== noteId);
+  
+    // Write the updated notes back to the file
+    fs.writeFileSync(path.join(__dirname, '../../../db/db.json'), JSON.stringify(notes));
+  
+    res.json(notes);
+  });
+  //!!!!!!!!!!!!!!!!!!!!!
   app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
