@@ -48,6 +48,8 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
   });
 
+
+
   //TODO make post work by using fs to write notes to db.json
   app.post('/api/notes', (req, res) => {
     // Read the existing notes
@@ -67,6 +69,19 @@ app.get('/notes', (req, res) => {
       });
     });
   });
+  //* `GET /api/notes` should read the `db.json` file and return all saved notes as JSON.
+  app.get('/api/notes', (req, res) => {
+    fs.readFile(path.join(__dirname, '../../../db/db.json'), 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Failed to read notes' });
+      }
+  
+      const notes = JSON.parse(data);
+      res.json(notes);
+    });
+  });
+
 
 //   app.delete('/api/notes', (req, res) => {
 //     res.json({
