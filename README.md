@@ -3,6 +3,9 @@
   ![Alt text](image.png)
   ## Description
   Organize your notes in a wonderfully designed, easy to use app.
+
+** Live site:
+ https://76500833.github.io/Note-Taker/
   
   ## Table of Contents
   - [Installation](#installation)
